@@ -75,7 +75,6 @@ if ($SecondsToWait -lt 1) {
     exit 1
 }
 
-# Option to cancel shutdown byWrite-Host ([char]0x26D4) "Shutdown scheduled in $SecondsToWait seconds..." -ForegroundColor Cyan pressing any key
 Write-Host "`nPress any key to cancel shutdown..." -ForegroundColor Yellow
 Write-Host ([char]0x25B6) " Countdown running, you can still cancel later by closing the window or pressing a key.`n"
 $endTime = (Get-Date).AddSeconds($SecondsToWait)
