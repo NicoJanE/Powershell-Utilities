@@ -1,6 +1,6 @@
 # What 
 
-This folder contains a collection of PowerShell (.ps1) scripts.
+This folder contains a collection of PowerShell (.ps1) scripts. One script per folder.
 
 ## Scripts included
 1. **Execute command(configurable) after countdown**
