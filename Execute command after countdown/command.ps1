@@ -2,7 +2,7 @@
 #[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
 
 # Usage:
-#   .\AutoShutdownWithCancel.ps1 
+#   .\command.ps1 
 #
 # This script schedules a system command (default shutdown) which is executed after a user-specified number of 
 # seconds (default: 3600 seconds). During the countdown, the user can cancel the command by pressing any key or CTRL-C
