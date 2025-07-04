@@ -1,0 +1,2 @@
+command: "shutdown.exe22"
+args: "/s", "/f", "/d", "p:0:0", "/t","0"
