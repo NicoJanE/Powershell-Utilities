@@ -1,11 +1,16 @@
 #Requires -Version 5.1
-#[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
+
+#  This file is part of: **Powershell-utilities**_
+#     Copyright (c) July 2025 Nico Jan Eelhart.
+#     This source code is licensed under the MIT License found in the  'LICENSE.md' file in the root directory of this source tree.
+#----------------------------------------------------------------------------------------------------------------------------------
 
 # Usage:
 #   .\command.ps1 
 #
 # This script schedules a system command (default shutdown) which is executed after a user-specified number of 
 # seconds (default: 3600 seconds). During the countdown, the user can cancel the command by pressing any key or CTRL-C
+#----------------------------------------------------------------------------------------------------------------------------------
 
 # These defaults will be used incase the 'input.txt' has no values 
 $Global:COMMAND_EXE = "shutdown.exe"
