@@ -1,5 +1,11 @@
 # What 
-Runs a Windows command from PowerShell with a countdown timer.
 
-- The related .txt file can specify the command and its arguments.
-- The user can enter the countdown duration in seconds (default is 3600 seconds, i.e., one hour).
+This folder contains a collection of PowerShell (.ps1) scripts.
+
+## Scripts included
+1. **Execute command(configurable) after countdown**
+Runs a program after a specified number of seconds.
+
+## Prerequisites
+- Windows OS with PowerShell installed (tested on PowerShell 5+).
+- Ensure the command specified is accessible in the system PATH or provide a full path.
