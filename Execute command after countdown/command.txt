@@ -1,2 +1,2 @@
-command: "shutdown.exe22"
+command: "shutdown.exe"
 args: "/s", "/f", "/d", "p:0:0", "/t","0"
