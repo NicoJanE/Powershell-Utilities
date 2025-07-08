@@ -10,13 +10,20 @@
 #
 # This script schedules a system command (default shutdown) which is executed after a user-specified number of 
 # seconds (default: 3600 seconds). During the countdown, the user can cancel the command by pressing any key or CTRL-C
+#
 #----------------------------------------------------------------------------------------------------------------------------------
 
 # These defaults will be used incase the 'input.txt' has no values 
-$Global:COMMAND_EXE = "shutdown.exe"
-$Global:COMMAND_ARGS_TEMPLATE = "/s", "/f", "/d", "p:0:0", "/t","1"
+#
+# My apologies.
+# The previous versions of the script included the shutdown command by default, which wasn't very convenient. That has now been changed,Notepad will open the command.txt file instead.
+# Sorry again if this caused any trouble for anyone.
+# $Global:COMMAND_EXE = "shutdown.exe"
+# $Global:COMMAND_ARGS_TEMPLATE = "/s", "/f", "/d", "p:0:0", "/t","1"
+$Global:COMMAND_EXE = "notepad.exe"
+$Global:COMMAND_ARGS_TEMPLATE= "command.txt" 
 $Global:fileUsed = 0
-$file_Command= ".\command.txt"
+$file_Command = ".\command.txt"
 
 # Read 'command.txt' values if available and override: COMMAND_EXE and COMMAND_ARGS_TEMPLATE
 function Set-GlobalCommandFromFile {
@@ -31,15 +38,36 @@ function Set-GlobalCommandFromFile {
     $lines = Get-Content $FilePath | Where-Object { $_ -match ':' }
 
     foreach ($line in $lines) {
-        $key, $value = $line -split ":", 2
-        $key = $key.Trim()
-        $value = $value.Trim()
+        if(!$line.StartsWith('#') ){
+            $key, $value = $line -split ":", 2
+            $key = $key.Trim()
+            $value = $value.Trim()
 
-        switch ($key.ToLower()) {
-            "command" { $Global:COMMAND_EXE = $value; $Global:fileUsed++ }
-            "args"    { $Global:COMMAND_ARGS_TEMPLATE= $value; $Global:fileUsed++ }
-            default   { Write-Warning "Unknown key: $key" }
-        }
+            switch ($key.ToLower()) {
+                "command" { 
+                    # Strip surrounding quotes if present
+                    $value = $value.Trim('"')
+                    $Global:COMMAND_EXE = $value
+                    $Global:fileUsed++
+                }                
+                "args" {
+                     try {
+                        # Wrap in array syntax and parse safely
+                        $scriptBlock = [ScriptBlock]::Create("@($value)")
+                        $parsed = $scriptBlock.Invoke()
+                        $Global:COMMAND_ARGS_TEMPLATE = $parsed
+                        $Global:fileUsed++
+                    }
+                    catch {
+                        Write-Error "Failed to parse arguments from command.txt: $_"
+                        exit 1
+                    }
+                }
+                default{
+                     Write-Warning "Unknown key: $key" 
+                }
+            }
+    }
 
     }
 }
@@ -55,14 +83,8 @@ if($fileUsed -eq 2){
     Write-Host ([char]0x2705) "Using command and args from: FILE ('$file_Command')"
 }
 else{
-    Write-Host ([char]0x2705) "File ('$file_Command') empty. Using command and args from: PROGRAM "
+    Write-Host ([char]0x2705) "File ('$file_Command') empty. Using command and args from: PROGRAM ($file_Command) "
 }
-
-# Show Which command will be executed
-$temp_cmd = $COMMAND_EXE -replace '[",]', ''
-$temp_args = $COMMAND_ARGS_TEMPLATE | ForEach-Object { $_ -replace '[",]', '' }
-Write-Host "Automatic execution of: $temp_cmd $($temp_args -join ' ')" -ForegroundColor Cyan
-
 
 # Prompt user for number of seconds until shutdown
 $time = Read-Host "Enter a number of seconds  (enter uses default: 3600 seconds)"
@@ -91,7 +113,7 @@ $pos.Y = $pos.Y - 1
 do {
     $remaining = [math]::Ceiling(($endTime - (Get-Date)).TotalSeconds)
 	$Host.UI.RawUI.CursorPosition = $pos
-	Write-Host " " ([char]0x2713) "Shutdown scheduled to run in: " -BackgroundColor DarkGray -ForegroundColor Yellow -NoNewline 
+	Write-Host " " ([char]0x2713) "Command ($COMMAND_EXE) scheduled to run in: " -BackgroundColor DarkGray -ForegroundColor Yellow -NoNewline 
     Write-Host " $remaining seconds " -BackgroundColor DarkGray -ForegroundColor DarkGreen 
 
     # Wait up to 1 second in 100ms increments, checking for key press
@@ -99,7 +121,7 @@ do {
         Start-Sleep -Milliseconds 100
         if ([System.Console]::KeyAvailable) {            
             [void][System.Console]::ReadKey($true)            
-            Write-Host "`n" ([char]0x26D4) "Shutdown canceled by user!, press any key to return to prompt" -ForegroundColor Green			
+            Write-Host "`n" ([char]0x26D4) "Command canceled by user!, press any key to return to prompt" -ForegroundColor Green			
             [System.Console]::ReadKey($true) 
             exit 0
         }
@@ -109,5 +131,12 @@ do {
 
 # Time to execute the command! Countdown done, execute the command and, notify the user
 $warningSymbol = [string]::Concat([char]0xD83D, [char]0xDED1)
-Write-Host " $warningSymbol System command now in progress: shutdown should now proceed`n`t ." -ForegroundColor Magenta
-& $COMMAND_EXE @COMMAND_ARGS_TEMPLATE
+Write-Host " $warningSymbol System command now in progress: $COMMAND_EXE should now been excuted`n`n ." -ForegroundColor Magenta
+if (-not ($COMMAND_ARGS_TEMPLATE -is [System.Array])) {
+    & $COMMAND_EXE $COMMAND_ARGS_TEMPLATE
+}
+elseif ($COMMAND_ARGS_TEMPLATE.Count -eq 1) {
+    & $COMMAND_EXE $COMMAND_ARGS_TEMPLATE[0]
+} else {
+    & $COMMAND_EXE @COMMAND_ARGS_TEMPLATE
+}

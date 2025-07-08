@@ -1,2 +1,4 @@
-command: "shutdown.exe"
-args: "/s", "/f", "/d", "p:0:0", "/t","0"
+# command: "shutdown.exe"
+# args: "/s", "/f", "/d", "p:0:0", "/t","0"
+command: "notepad.exe"
+args: "command.txt"
