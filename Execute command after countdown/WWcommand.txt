@@ -1,0 +1,13 @@
+
+# SHUTDOWN
+# command: "shutdown.exe"
+# args: "/s", "/f", "/d", "p:0:0", "/t","0"
+#
+# HIBERNATE
+command: "shutdown2.exe"
+args: "/h"
+descr: 'To hibernate your PC'
+#
+# SOMETHING ELSE
+# command: "FileHistory.exe"
+# args: "command.txt"

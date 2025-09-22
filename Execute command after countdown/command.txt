@@ -1,4 +1,14 @@
+
+# 1. SHUTDOWN
 # command: "shutdown.exe"
 # args: "/s", "/f", "/d", "p:0:0", "/t","0"
-command: "notepad.exe"
+#
+# 2. HIBERNATE
+# command: "shutdown.exe"
+# args: "/h"
+# descr: 'To hibernate your PC'
+#
+# 3. SOMETHING ELSE
+command: "FileHistory.exe"
 args: "command.txt"
+descr: 'Custom action'

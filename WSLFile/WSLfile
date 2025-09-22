@@ -1,0 +1,61 @@
+
+## GOAL: Create or use existing WSL distribution and run commands inside the distribution
+## ===============================================================================================================================
+##   Run this with: `powershell.exe -ExecutionPolicy Bypass -File .\wsl-parser.ps1`
+##
+## ================================================================================================================================
+
+## OPTIONAL Add a description to the installation user, comment it to skip 
+#DESCRIPTION This distribution will install a stack for: Your text.`Use backticks for newlines.`Goodluck today!
+
+
+## 1.1 REQUIRED: DISTRO name and USER name of the existing WSL distribution or new to create WSL distribution
+## --------------------------------------------------------------------------------------------------------------------------------
+## - DISTRO will be used to select or create the target WSL distribution
+## - USER will be used to create a new distribution if it does not exist, when distro is created it will assume the user exists
+# DISTRO NewDistro2
+# USER nico
+
+# 1.2 OPTIONAL Indicate to Create new distro, using: DISTRO and USER. If the WSL exists this will fail.
+# Comment this if the Distro already exists.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - 
+# DISTRO_DEBIAN_NEW  --web-download --location C:\WSLDist\test2
+
+
+## 2.1. Run a sudo command in the WSL
+## --------------------------------------------------------------------------------------------------------------------------------
+# RUN sudo apt-get update -y
+
+## 2.2. Run a command in the WSL
+# RUN  mkdir temp
+
+
+
+## AVOID the echo command to prevent issues with caused by PowerShell interpreting special characters
+##   RUN echo "whatever..."
+
+
+## 3. Copy a file
+## --------------------------------------------------------------------------------------------------------------------------------
+# COPY requirements.txt requirements.txt
+
+
+## 4.Copy the folder and files including sub folders and files
+## --------------------------------------------------------------------------------------------------------------------------------
+##
+# COPY ./template/app home/nico/app
+
+
+# 4. Run this script command
+# --------------------------------------------------------------------------------------------------------------------------------
+#
+## Execute this script/program inside WSL
+# RUN chmod +x ~/setup.sh && ~/setup.sh
+
+
+## 5.) Set environment variables,
+## --------------------------------------------------------------------------------------------------------------------------------
+#
+#ENV MY_VAR1=HelloWorld today1
+#ENV MY_VAR2=HelloWorld today2
+#ENV_APPLY

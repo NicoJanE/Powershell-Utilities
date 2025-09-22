@@ -3,6 +3,8 @@
 #  This file is part of: **Powershell-utilities**_
 #     Copyright (c) July 2025 Nico Jan Eelhart.
 #     This source code is licensed under the MIT License found in the  'LICENSE.md' file in the root directory of this source tree.
+#
+#	Aug 2025 : Added HIbernate option
 #----------------------------------------------------------------------------------------------------------------------------------
 
 # Usage:
@@ -15,13 +17,26 @@
 
 # These defaults will be used incase the 'input.txt' has no values 
 #
-# My apologies.
-# The previous versions of the script included the shutdown command by default, which wasn't very convenient. That has now been changed,Notepad will open the command.txt file instead.
-# Sorry again if this caused any trouble for anyone.
+
+# Not that for all command here we use 1 second always, because the waiting is inside the loop.
+#
+# 1) SHUTDOWN
 # $Global:COMMAND_EXE = "shutdown.exe"
 # $Global:COMMAND_ARGS_TEMPLATE = "/s", "/f", "/d", "p:0:0", "/t","1"
-$Global:COMMAND_EXE = "notepad.exe"
+#
+# 2) HIBERNATE
+# $Global:COMMAND_EXE = "shutdown.exe"
+# $Global:COMMAND_DESCR = 'to hibernate your PC'
+# $Global:COMMAND_ARGS_TEMPLATE = "/h"
+#
+# 	Alternatives:		
+# 		timeout /t 10; shutdown.exe /h
+# 		ping -n 61 127.0.0.1 >nul && shutdown.exe /h
+#
+# 3) SOMETHING ELSE`
+$Global:COMMAND_EXE = "FileHistory.exe"
 $Global:COMMAND_ARGS_TEMPLATE= "command.txt" 
+
 $Global:fileUsed = 0
 $file_Command = ".\command.txt"
 
@@ -63,6 +78,11 @@ function Set-GlobalCommandFromFile {
                         exit 1
                     }
                 }
+				"descr"
+				{
+					$Global:COMMAND_DESCR = $value
+				}
+				
                 default{
                      Write-Warning "Unknown key: $key" 
                 }
@@ -113,7 +133,7 @@ $pos.Y = $pos.Y - 1
 do {
     $remaining = [math]::Ceiling(($endTime - (Get-Date)).TotalSeconds)
 	$Host.UI.RawUI.CursorPosition = $pos
-	Write-Host " " ([char]0x2713) "Command ($COMMAND_EXE) scheduled to run in: " -BackgroundColor DarkGray -ForegroundColor Yellow -NoNewline 
+	Write-Host " " ([char]0x2713) "Command: $COMMAND_EXE ($COMMAND_DESCR) scheduled to run in: " -BackgroundColor DarkGray -ForegroundColor Yellow -NoNewline 
     Write-Host " $remaining seconds " -BackgroundColor DarkGray -ForegroundColor DarkGreen 
 
     # Wait up to 1 second in 100ms increments, checking for key press
@@ -131,7 +151,7 @@ do {
 
 # Time to execute the command! Countdown done, execute the command and, notify the user
 $warningSymbol = [string]::Concat([char]0xD83D, [char]0xDED1)
-Write-Host " $warningSymbol System command now in progress: $COMMAND_EXE should now been excuted`n`n ." -ForegroundColor Magenta
+Write-Host " $warningSymbol System command now in progress: $COMMAND_EXE ($COMMAND_DESCR) should now been executed`n`n ." -ForegroundColor Magenta
 if (-not ($COMMAND_ARGS_TEMPLATE -is [System.Array])) {
     & $COMMAND_EXE $COMMAND_ARGS_TEMPLATE
 }
