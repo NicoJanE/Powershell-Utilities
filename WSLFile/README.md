@@ -48,7 +48,12 @@ Use one of these commands:
 
 <br>
 
-## Appendix: Using VS Code with WSL
+<details>  
+  <summary class="clickable-summary">
+  <span  class="summary-icon"></span> <!-- Square Symbol -->
+  <b>Appendix: Using VS Code with WSL</b>
+  </summary> <!-- On same line is failure -->
+  
 
 To use VS Code in combination with WSL (development stack):
 
@@ -65,6 +70,8 @@ To use VS Code in combination with WSL (development stack):
 4. Open the WSL folder in the VS Code window.
 
 *To set your WSL as default, use: `wsl --set-default [Distr-name]`*
+
+</details>
 
 
 <br><br>
