@@ -7,6 +7,13 @@
 
 <br>
 
+## Requirements
+- Windows 10 or 11
+- WSL 2.6.1.0
+- Powershell 5.1 or 7.3
+
+<br>
+
 ## WSLFile syntax
 
 The WSLFIle support the following syntax:
