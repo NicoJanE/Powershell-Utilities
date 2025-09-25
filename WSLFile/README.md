@@ -51,7 +51,7 @@ Use one of these commands:
 <details>  
   <summary class="clickable-summary">
   <span  class="summary-icon"></span> <!-- Square Symbol -->
-  <b>Appendix: Using VS Code with WSL</b>
+  <b>Appendix I: Using VS Code with WSL</b>
   </summary> <!-- On same line is failure -->
   
 
@@ -70,6 +70,25 @@ To use VS Code in combination with WSL (development stack):
 4. Open the WSL folder in the VS Code window.
 
 *To set your WSL as default, use: `wsl --set-default [Distr-name]`*
+
+</details>
+
+
+<details>  
+  <summary class="clickable-summary">
+  <span  class="summary-icon"></span> <!-- Square Symbol -->
+  <b>Appendix II: Packaging the script as an .exe</b>
+  </summary> <!-- On same line is failure -->
+  
+
+To wrap your .ps1 script into and .exe so that the scrpt can be added into a path aware location and can be used like any executable file, Follow these steps
+
+
+1. Install(One time) the ps2exe module, run this from your CLI:  
+`Install-Module -Name ps2exe -Scope CurrentUser`
+2. Then run this command again the script filr:  
+`ps2exe MyScript.ps1 MyScript.exe`
+3. After that copy `MyScript.exe` to a path aware folder and you can use it
 
 </details>
 

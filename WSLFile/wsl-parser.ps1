@@ -7,7 +7,7 @@ $DebugPreference = "Continue"
 # ------------------------------------------------------------------------------------------------------------------------------
 #   This is a Docker-like script that parses a WSLfile (similar to a Dockerfile) and executes commands in the WSL environment.
 #   It currently supports the following features:
-#     - By default it reads the 'WSLfile'for the instructions, but you can also provide your own file by using the WSLfile parameter.
+#     - By default it reads the 'WSLfile'for the instructions, but you can also provide your own file by using the WSLfile parameter.  wsl-parser WSLfile "D:\PowerShell\Projects\OPEN_SOURCE\Powershell-utilities\WSLFile\WSlfile"
 #     - Indicate a target WSL Distro and User (DISTRO USER)
 #     - Create a new Debian WSL Distro (DISTRO_DEBIAN_NEW)
 #     - Install Packages in the WSL (RUN)
@@ -16,8 +16,11 @@ $DebugPreference = "Continue"
 #
 # Run with: 
 #  - powershell.exe -ExecutionPolicy Bypass -File .\wsl-parser.ps1
-#  - powershell.exe -ExecutionPolicy Bypass -File .\wsl-parser.ps1  WSLfile="path\to\your\WSLfile"
+#  - powershell.exe -ExecutionPolicy Bypass -File .\wsl-parser.ps1  "path\to\your\WSLfile"
 #
+# Convert it to Executable (See als Appendix II in README.d)
+#   - ps2exe wsl-parser.ps1 wsl-parser.ps1
+#   - Now it can be use like: `wsl-parser.ps1`
 #
 #   For more information see the `README.md` file
 #
@@ -31,7 +34,7 @@ $DebugPreference = "Continue"
 #		https://github.com/PowerShell/PowerShell/issues/26067
 #		Bug in PowerShell 5.1 and 7.5.3
 #
-#   TODO: check if this is a false bug report
+#   	This turned out to be a WSL issue (TODO Report it)
 # ----------------------------------------------------------------------------
 
 
@@ -199,12 +202,12 @@ function Task_SetWorkDir {
 # Creates a new Debian-based WSL distro the name and user are provided in the WSLfile
 function Task_Distro_Debian_New {
     param([string]$distroArgs)
-    #Write-Host ">> Executing >> Creating new Debian WSL with args: $distroArgs"
-    Task_CMDRun  "WSL --install Debian  --name $Global:Distro $distroArgs"
-
+    Write-Host ">> Executing >> Creating new Debian WSL with args: $distroArgs"
+    Task_CMDRun  "WSL --install Debian --no-launch --name $Global:Distro $distroArgs"
+    # Create user and password
     Task_CMDRun "wsl -d $Global:Distro -u root -- adduser $Global:User"
-    Task_CMDRun "wsl -d $Global:Distro -u root -- usermod -aG sudo $Global:User"
-
+    # MAke user a sudo user
+    Task_CMDRun "wsl -d $Global:Distro -u root -- usermod -aG sudo $Global:User"                
 }
 function Task_Description {
     param([string]$description)
