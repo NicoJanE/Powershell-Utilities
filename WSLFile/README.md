@@ -40,7 +40,7 @@ The WSLFIle support the following syntax:
 Use one of these commands:
 
 - `powershell.exe -File .\wsl-parser.ps1`: Reads and processes the file `WSLFile`.
-- `powershell.exe -File .\wsl-parser.ps1 WSLfile=[path\to\your\WSLfile_Python]`: Uses an alternative `WSLFile`.
+- `powershell.exe -File .\wsl-parser.ps1 [path\to\your\WSLfile_Python]`: Uses an alternative `WSLFile`.
 - Optionally, set PowerShell permissions or use the option `-ExecutionPolicy Bypass`: `powershell.exe ExecutionPolicy Bypass -File .\wsl-parser.ps1`
 
 
