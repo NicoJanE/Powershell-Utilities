@@ -3,7 +3,7 @@
 **WSLFile** is a Docker-like file designed to describe and install a WSL environment by creating a WSLFile. It is primarily used to create WSL development stack templates, but it can be adapted for various other use cases.
 
 
-*For a sample WSL development stack see: [project here](https://github.com/NicoJanE/PY-Flask-FastApi-Template-WSL-Stack) and [setup instruction here](https://nicojane.github.io/PY-Flask-FastApi-Template-WSL-Stack/Howtos/Setup)* 
+*For a sample WSL development stack,using it see: [here](https://github.com/NicoJanE/PY-Flask-FastApi-Template-WSL-Stack) and [specific setup instruction here](https://nicojane.github.io/PY-Flask-FastApi-Template-WSL-Stack/Howtos/Setup)* 
 
 
 <br>
