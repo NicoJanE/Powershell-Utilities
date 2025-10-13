@@ -27,7 +27,9 @@ The WSLFIle support the following syntax:
 - Execute a task in the WSL as sudo: `RUN sudo [task]`
 - Execute a task in the WSL: `RUN [task]`
 - Copy a file: `COPY [source file] [destination file]`
+  - use the `~/` to direct the file to the user home directory
 - Copy a directory with files (recursive): `COPY [source directory]`
+  - use the `~/` to direct the directories/files to the user home directory
 - Set an environment variable in the WSL: `ENV MY_VAR1=HelloWorld today1`
 
 

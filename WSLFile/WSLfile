@@ -35,15 +35,15 @@
 ##   RUN echo "whatever..."
 
 
-## 3. Copy a file
+## 3. Copy a file to users home directory
 ## --------------------------------------------------------------------------------------------------------------------------------
-# COPY requirements.txt requirements.txt
+# COPY requirements.txt ~/requirements.txt
 
 
-## 4.Copy the folder and files including sub folders and files
+## 4.Copy the folder and files including sub folders and files to user home directory
 ## --------------------------------------------------------------------------------------------------------------------------------
 ##
-# COPY ./template/app home/nico/app
+# COPY ./template/app ~/app
 
 
 # 4. Run this script command

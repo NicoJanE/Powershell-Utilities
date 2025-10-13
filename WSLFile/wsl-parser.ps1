@@ -59,9 +59,7 @@ $Global:WSLEnv = @{}
 # ============================================================================
 
 
-
 # Private supporting function - Execute commands in WSL with environment 
-# and workdir
 function Private_RunInWSL {
     param([string]$Command)
 
@@ -116,6 +114,11 @@ function Task_Copy {
     # Normalize WSL target path
     $TargetWSL = $Target.Replace("\", "/").TrimEnd("/")
 
+    # Expand ~ to the user's home directory
+    if ($TargetWSL -like "~*") {
+        $TargetWSL = $TargetWSL -replace "^~", "home/$Global:User"
+    }
+
     # Include files and folders recursively
     $items = Get-ChildItem -Path $Source -Recurse
 
@@ -126,8 +129,12 @@ function Task_Copy {
 
     foreach ($item in $items) {
         # Relative path inside source folder
-        $relPath = $item.FullName.Substring((Resolve-Path $Source).Path.Length).TrimStart('\')
-        $destWSL = "/$TargetWSL/$relPath" -replace '\\','/'
+        $relPath = $item.FullName.Substring((Resolve-Path $Source).Path.Length).TrimStart('\')        
+        if ($items.Count -eq 1 -and -not ($TargetWSL -match '/$')) {
+            $destWSL = "/$TargetWSL" -replace '\\','/'
+        } else {
+            $destWSL = "/$TargetWSL/$relPath" -replace '\\','/'
+        }
 
         # Convert Windows path to WSL path
         $drive, $rest = $item.FullName -split ":", 2
@@ -277,8 +284,8 @@ Get-Content $WSLfile | ForEach-Object {
         # Fix PowerShell variable expansion by converting \$ back to $
         $command = $Matches[1] -replace '\\(\$)', '$1'
         Task_Run $command
-    }
-    elseif ($line -match "^COPY\s+(\S+)\s+(\S+)$") {
+    }    
+    elseif ($line -match "^COPY\s+(\S+)\s+(\S+)\s*(#.*)?$"){
         Task_Copy $Matches[1] $Matches[2]
     }
     elseif ($line -match "^ENV\s+(\S+)=(.*)$") {
@@ -287,7 +294,7 @@ Get-Content $WSLfile | ForEach-Object {
     elseif ($line -match "^ENV_APPLY") {
         Task_EnvApply
     }
-    elseif ($line -match "^WORKDIR\s+(\S+)$") {
+    elseif ($line -match "^WORKDIR\s+(\S+)\s*(#.*)?$") {
         Task_SetWorkDir $Matches[1]
     }
     elseif( $line -match "^DISTRO_DEBIAN_NEW\s+(.+)$"){
