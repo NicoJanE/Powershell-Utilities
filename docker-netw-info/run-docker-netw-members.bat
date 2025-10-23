@@ -1,0 +1,1 @@
+powershell.exe -NoExit -ExecutionPolicy Bypass -File "%~dp0docker-netw-members.ps1"

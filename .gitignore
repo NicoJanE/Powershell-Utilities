@@ -1,1 +1,11 @@
 .njerepo
+.njeprj
+.njeTempl
+.history
+.DS_Store
+
+# Ignore any directory or file (at any level) starting with an underscore
+**/_*
+# EXCEPTION: allow the root-level folder '_layouts/' and the file: !_config.yml. Make sure the exceptions are after the general rule!
+!/_layouts/
+!/_config.yml
