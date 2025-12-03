@@ -1,4 +1,3 @@
-
 # PowerShell Utilities  <span style="color: #409EFF; font-size: 0.6em; font-style: italic;"> -  PowerShell Tools for Productivity</span>
 
 ## ℹ️ Introduction
@@ -17,6 +16,8 @@ A Docker-like file, designed to describe and install a WSL environment by creati
 Finds a search string in multiple files (based on extension) starting from a specific directory. The files containing the string will be displayed as linked items.
 4. **Docker-netw-info**  
 Displays containers and related information such as IPv4, ports, image, and others, defined in the (external) network. [README here](./docker-netw-info/README.md)
+5. **Dockerlocation** Displays available docker container and from selected container the details (Binds and other mounts) [README here](./Dockerlocation/README.md)
+6. **WSLlocation** Displays available WSL Environments and from selected environment the details (stored location) [README here](./WSLlocation/README.md)
 
 ## ✅ Prerequisites
 
@@ -32,3 +33,9 @@ To get started with the scripts:
 2. Read the README.md file in the script folder for detailed usage instructions.
 3. Run the script from the PowerShell console.
 
+
+<span style="color: #6d757dff; font-size: 10px; font-style: italic;"> <br>
+This file is part of: **PowerShell utilities**
+Copyright (c) 2025 Nico Jan Eelhart. This source code is licensed under the MIT License found in the  'LICENSE.md' file in the root directory of this source tree.</span>
+</small><br>
+<div align="center"> ─── ✦ ─── </div>
